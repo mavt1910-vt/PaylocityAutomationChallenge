@@ -155,7 +155,7 @@ public class EmployeesUITest extends BaseTest {
                 "Should display length validation error: 'First/Last name must be 50 characters or fewer.'");
     }
 
-    @Test(testName = "Create an employee with newline and tab in employee name")
+    @Test(testName = "AT-07 Create an employee with newline and tab in employee name")
     public void controlCharactersInNames_shouldShowInvalidCharsError() {
         final String firstRaw = "P\\nParker";
         final String lastRaw = "T\\tStark";
@@ -489,7 +489,7 @@ public class EmployeesUITest extends BaseTest {
                 "Net Pay should decrease after adding a dependent.");
     }
 
-    @Test(testName = "Add employee with empty dependents should display a error message")
+    @Test(testName = "AT-18 Add employee with empty dependents should display a error message")
     public void emptyDependents_shouldShowRequiredError_andNotInsert() {
         final String first = "Natasha";
         final String last = "Romanoff";
