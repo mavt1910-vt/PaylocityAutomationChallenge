@@ -4,7 +4,7 @@ import UI.core.BaseUI;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class LoginUI extends BaseUI {
+public class LoginPage extends BaseUI {
 
     @FindBy(id = "Username")
     private WebElement usernameTextBox;
@@ -15,17 +15,17 @@ public class LoginUI extends BaseUI {
     @FindBy(css = "button.btn.btn-primary[type='submit']")
     private WebElement loginButton;
 
-    public LoginUI open(String url) {
+    public LoginPage open(String url) {
         navigateTo(url);
         return this;
     }
 
-    public LoginUI typeUsername(String username) {
+    public LoginPage typeUsername(String username) {
         type(usernameTextBox, username);
         return this;
     }
 
-    public LoginUI typePassword(String password) {
+    public LoginPage typePassword(String password) {
         type(passwordTextBox, password);
         return this;
     }

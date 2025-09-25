@@ -9,7 +9,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import UI.pages.LoginUI;
+import UI.pages.LoginPage;
 
 import java.math.BigDecimal;
 
@@ -34,7 +34,7 @@ public class EmployeesUITest extends BaseTest {
         final BigDecimal ANNUAL_SALARY = new BigDecimal("52000.00");
         final BigDecimal EXPECTED_ANNUAL_NET = ANNUAL_SALARY.subtract(expectedAnnualBenefits);
 
-        BenefitsDashboardPage benefitsDashboardPage = new LoginUI()
+        BenefitsDashboardPage benefitsDashboardPage = new LoginPage()
                 .open(url)
                 .typeUsername(user)
                 .typePassword(password)
@@ -57,7 +57,7 @@ public class EmployeesUITest extends BaseTest {
 
     @Test(testName = "AT-03 Create an employee with first name empty")
     public void emptyFirstName_shouldShowValidationError() {
-        BenefitsDashboardPage dashboard = new LoginUI()
+        BenefitsDashboardPage dashboard = new LoginPage()
                 .open(url)
                 .typeUsername(user)
                 .typePassword(password)
@@ -81,7 +81,7 @@ public class EmployeesUITest extends BaseTest {
         final String last = "Deps32";
         final int dependents = 32;
 
-        BenefitsDashboardPage dashboardPage = new LoginUI()
+        BenefitsDashboardPage dashboardPage = new LoginPage()
                 .open(url)
                 .typeUsername(user)
                 .typePassword(password)
@@ -104,7 +104,7 @@ public class EmployeesUITest extends BaseTest {
         final String last = "Rogers";
         final int dependents = 1;
 
-        BenefitsDashboardPage dashboard = new LoginUI()
+        BenefitsDashboardPage dashboard = new LoginPage()
                 .open(url)
                 .typeUsername(user)
                 .typePassword(password)
@@ -134,7 +134,7 @@ public class EmployeesUITest extends BaseTest {
         final String first = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
         final String last = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
 
-        BenefitsDashboardPage dashboard = new LoginUI()
+        BenefitsDashboardPage dashboard = new LoginPage()
                 .open(url)
                 .typeUsername(user)
                 .typePassword(password)
@@ -161,7 +161,7 @@ public class EmployeesUITest extends BaseTest {
         final String lastRaw = "T\\tStark";
         final String deps = "1";
 
-        BenefitsDashboardPage dashboard = new LoginUI()
+        BenefitsDashboardPage dashboard = new LoginPage()
                 .open(url)
                 .typeUsername(user)
                 .typePassword(password)
@@ -188,7 +188,7 @@ public class EmployeesUITest extends BaseTest {
         final String last = "Bryan \"The Family first\"";
         final String deps = "0";
 
-        BenefitsDashboardPage dashboard = new LoginUI()
+        BenefitsDashboardPage dashboard = new LoginPage()
                 .open(url)
                 .typeUsername(user)
                 .typePassword(password)
@@ -212,7 +212,7 @@ public class EmployeesUITest extends BaseTest {
 
     @Test(testName = "AT-09 Save button is enabled when fields are empty")
     public void addButton_shouldRemainDisabled_withInvalidData() {
-        BenefitsDashboardPage dashboardPage = new LoginUI()
+        BenefitsDashboardPage dashboardPage = new LoginPage()
                 .open(url)
                 .typeUsername(user)
                 .typePassword(password)
@@ -232,7 +232,7 @@ public class EmployeesUITest extends BaseTest {
         final String last = "Parker";
         final String deps = "22z1";
 
-        BenefitsDashboardPage dashboardPage = new LoginUI()
+        BenefitsDashboardPage dashboardPage = new LoginPage()
                 .open(url)
                 .typeUsername(user)
                 .typePassword(password)
@@ -255,7 +255,7 @@ public class EmployeesUITest extends BaseTest {
         final String last = "Romanoff";
         final String deps = "0";
 
-        BenefitsDashboardPage dashboard = new LoginUI()
+        BenefitsDashboardPage dashboard = new LoginPage()
                 .open(url)
                 .typeUsername(user)
                 .typePassword(password)
@@ -279,7 +279,7 @@ public class EmployeesUITest extends BaseTest {
         final String first = "Steven";
         final String last = "Strange";
 
-        BenefitsDashboardPage dashboardPage = new LoginUI()
+        BenefitsDashboardPage dashboardPage = new LoginPage()
                 .open(url)
                 .typeUsername(user)
                 .typePassword(password)
@@ -310,7 +310,7 @@ public class EmployeesUITest extends BaseTest {
         final String last = "Rogers";
         final int deps = 33;
 
-        BenefitsDashboardPage dashboardPage = new LoginUI()
+        BenefitsDashboardPage dashboardPage = new LoginPage()
                 .open(url)
                 .typeUsername(user)
                 .typePassword(password)
@@ -335,7 +335,7 @@ public class EmployeesUITest extends BaseTest {
         final String deps = "1";
         final String firstUpdated = "Natasha";
 
-        BenefitsDashboardPage dashboardPage = new LoginUI()
+        BenefitsDashboardPage dashboardPage = new LoginPage()
                 .open(url)
                 .typeUsername(user)
                 .typePassword(password)
@@ -388,7 +388,7 @@ public class EmployeesUITest extends BaseTest {
         final String first = "Peter";
         final String last = "Parker";
 
-        BenefitsDashboardPage dashboardPage = new LoginUI()
+        BenefitsDashboardPage dashboardPage = new LoginPage()
                 .open(url)
                 .typeUsername(user)
                 .typePassword(password)
@@ -421,7 +421,7 @@ public class EmployeesUITest extends BaseTest {
         final String first = "Peter";
         final String last = "Parker";
 
-        BenefitsDashboardPage dashboardPage = new LoginUI()
+        BenefitsDashboardPage dashboardPage = new LoginPage()
                 .open(url)
                 .typeUsername(user)
                 .typePassword(password)
@@ -450,7 +450,7 @@ public class EmployeesUITest extends BaseTest {
         final String first = "Peter";
         final String last = "Parker";
 
-        BenefitsDashboardPage dashboardPage = new LoginUI()
+        BenefitsDashboardPage dashboardPage = new LoginPage()
                 .open(url)
                 .typeUsername(user)
                 .typePassword(password)
@@ -494,7 +494,7 @@ public class EmployeesUITest extends BaseTest {
         final String first = "Natasha";
         final String last = "Romanoff";
 
-        BenefitsDashboardPage dashboardPage = new LoginUI()
+        BenefitsDashboardPage dashboardPage = new LoginPage()
                 .open(url)
                 .typeUsername(user)
                 .typePassword(password)
