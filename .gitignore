@@ -1,0 +1,24 @@
+# Build
+target/
+
+# Test reports
+test-output/
+reports/
+
+# IDE (IntelliJ)
+.idea/
+*.iml
+out/
+
+# Logs
+*.log
+
+# WebDriver cache
+wdm/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
