@@ -4,27 +4,32 @@ End-to-end API + UI (Selenium) test suite using TestNG, Rest Assured, and Maven.
 Run it from the IDE, Maven CLI, or Docker (everything-in-one). Produces HTML reports.
 
 📁 Project Structure
+
+<pre>
 PaylocityAutomationChallenge/
-├─ pom.xml                         # Maven config (deps, Surefire, single suite RegressionSuite.xml)
-├─ README.md                       # You are here: setup, how-to-run, platform notes
-├─ RegressionSuite.xml             # TestNG suite (orchestrates all tests)
-├─ Dockerfile                      # Image to run the whole suite (API + UI) and export reports
+├─ pom.xml
+├─ README.md
+├─ RegressionSuite.xml
+├─ Dockerfile
 ├─ src/
 │  ├─ main/
 │  │  └─ java/
 │  │     ├─ API/
 │  │     │  ├─ core/
-│  │     │  │  └─ ApiHelper.java               # REST client (base URI, auth, headers, logging)
+│  │     │  │  └─ ApiHelper.java
 │  │     │  ├─ factories/
-│  │     │  │  └─ EmployeeDataFactory.java     # Payload builders (faker / variants)
+│  │     │  │  └─ EmployeeDataFactory.java
 │  │     │  ├─ models/
-│  │     │  │  └─ employees/                   # Request POJOs (create/update)
+│  │     │  │  └─ employees/
+│  │     │  │     ├─ EmployeeCreateRequest.java
+│  │     │  │     └─ EmployeeUpdateRequest.java
 │  │     │  ├─ responses/
-│  │     │  │  └─ employees/                   # Response POJOs (EmployeeResponse)
+│  │     │  │  └─ employees/
+│  │     │  │     └─ EmployeeResponse.java
 │  │     │  └─ services/
-│  │     │     └─ EmployeeService.java         # Service layer (maps Response → objects)
+│  │     │        └─ EmployeeService.java
 │  │     ├─ Common/
-│  │     │  └─ LogHelper.java                  # Logging + pretty JSON
+│  │     │  └─ LogHelper.java
 │  │     └─ UI/
 │  │        ├─ components/
 │  │        │  ├─ DeleteConfirmationComponent.java
@@ -43,12 +48,14 @@ PaylocityAutomationChallenge/
 │  └─ test/
 │     ├─ java/
 │     │  ├─ API/
-│     │  │  └─ EmployeesAPITest.java           # API cases (create/get/put/delete & edge cases)
+│     │  │  └─ EmployeesAPITest.java
 │     │  └─ UI/
-│     │     └─ BaseTest.java                   # Base TestNG (reads params, starts/stops driver)
-│     └─ resources/                            # (Optional) configs/properties
-├─ reports/                        # (Created by Docker run): exported reports from the container
-└─ test-output/                    # (Created by local/Maven run): TestNG HTML reports
+│     │     └─ BaseTest.java
+│     └─ resources/
+├─ reports/
+└─ test-output/
+</pre>
+
 
 ✅ Requirements
 
