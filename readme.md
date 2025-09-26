@@ -1,16 +1,12 @@
-# Paylocity Automation Challenge
+Paylocity Automation Challenge
 
-End-to-end **API + UI (Selenium)** test suite using **TestNG**, **Rest Assured**, and **Maven**.
-Supports running from IDE, Maven CLI, or **Docker** (everything-in-one) and produces **HTML reports**.
+End-to-end API + UI (Selenium) test suite using TestNG, Rest Assured, and Maven.
+Run it from the IDE, Maven CLI, or Docker (everything-in-one). Produces HTML reports.
 
----
-
-## 📁 Project Structure (ASCII map)
-
-```
+📁 Project Structure
 PaylocityAutomationChallenge/
 ├─ pom.xml                         # Maven config (deps, Surefire, single suite RegressionSuite.xml)
-├─ README.md                       # You are here: setup, how-to-run, and platform notes
+├─ README.md                       # You are here: setup, how-to-run, platform notes
 ├─ RegressionSuite.xml             # TestNG suite (orchestrates all tests)
 ├─ Dockerfile                      # Image to run the whole suite (API + UI) and export reports
 ├─ src/
@@ -27,146 +23,157 @@ PaylocityAutomationChallenge/
 │  │     │  │  └─ employees/                   # Response POJOs (EmployeeResponse)
 │  │     │  └─ services/
 │  │     │     └─ EmployeeService.java         # Service layer (maps Response → objects)
-│  │     ├─ UI/
-│  │     │  └─ core/
-│  │     │     ├─ BrowserType.java             # Browser enum
-│  │     │     ├─ DriverOptions.java           # Driver parameters (browser/headless/remote/gridUrl)
-│  │     │     └─ DriverManager.java           # WebDriver (local/remote, Docker-aware headless flags)
-│  │     └─ Common/
-│  │        └─ LogHelper.java                  # Logging + pretty JSON
+│  │     ├─ Common/
+│  │     │  └─ LogHelper.java                  # Logging + pretty JSON
+│  │     └─ UI/
+│  │        ├─ components/
+│  │        │  ├─ DeleteConfirmationComponent.java
+│  │        │  ├─ EmployeeFormComponent.java
+│  │        │  └─ EmployeesTableComponent.java
+│  │        ├─ core/
+│  │        │  ├─ BaseUI.java
+│  │        │  ├─ BrowserType.java
+│  │        │  ├─ ConfigManager.java
+│  │        │  ├─ DriverManager.java
+│  │        │  ├─ DriverOptions.java
+│  │        │  └─ EmployeeTableColumn.java
+│  │        └─ pages/
+│  │           ├─ BenefitsDashboardPage.java
+│  │           └─ LoginPage.java
 │  └─ test/
 │     ├─ java/
-│     │  ├─ API/                               # API test cases (TestNG)
-│     │  └─ UI/                                # UI test cases (TestNG)
+│     │  ├─ API/
+│     │  │  └─ EmployeesAPITest.java           # API cases (create/get/put/delete & edge cases)
+│     │  └─ UI/
+│     │     └─ BaseTest.java                   # Base TestNG (reads params, starts/stops driver)
 │     └─ resources/                            # (Optional) configs/properties
 ├─ reports/                        # (Created by Docker run): exported reports from the container
 └─ test-output/                    # (Created by local/Maven run): TestNG HTML reports
-```
 
----
+✅ Requirements
 
-## ✅ Requirements
+Pick one path to run the suite:
 
-Pick **one** path to run the suite:
+A) IDE (IntelliJ IDEA)
 
-### A) IDE (IntelliJ IDEA)
+JDK 17+
 
-* **JDK 17+**
-* IntelliJ with **TestNG** plugin
-* (Optional) **Google Chrome** installed locally (if you run UI non-headless)
+IntelliJ with TestNG plugin
 
-### B) Maven (command line)
+(Optional) Google Chrome installed locally (if you run UI non-headless)
 
-* **JDK 17**
-* **Maven 3.9+** on PATH (`mvn -v`)
+B) Maven (command line)
 
-### C) Docker (all-in-one)
+JDK 17
 
-* **Docker Desktop** (Windows/macOS) or **Docker Engine** (Linux)
-* On Windows: **WSL2** + hardware virtualization enabled (BIOS)
+Maven 3.9+ on PATH (mvn -v)
 
----
+C) Docker (all-in-one)
 
-## ▶️ How to Run
+Docker Desktop (Windows/macOS) or Docker Engine (Linux)
 
-### 1) From IDE (IntelliJ)
+On Windows: WSL2 + hardware virtualization enabled (BIOS)
 
-* **Run the whole suite**: right-click `RegressionSuite.xml` → **Run**.
-* **Run a class**: right-click the test class → **Run**.
-* **Run a single test**: right-click the `@Test` method → **Run**.
+▶️ How to Run
+1) From IDE (IntelliJ)
 
-> Default UI mode is **non-headless**; inside Docker, `DriverManager` auto-forces **headless**.
+Run the whole suite: right-click RegressionSuite.xml → Run.
 
-### 2) With Maven
+Run a class: right-click the test class → Run.
 
-```bash
-mvn clean test
-```
+Run a single test: right-click the @Test method → Run.
 
-Reports:
+Default UI mode is non-headless; inside Docker, DriverManager auto-forces headless.
 
-* `test-output/index.html` (TestNG)
-* `test-output/emailable-report.html`
-* `target/surefire-reports/…` (Surefire logs)
+2) With Maven
+   mvn clean test
 
-### 3) With Docker
 
-#### Build the image (run in repo root)
+Reports
 
-* **macOS (Apple Silicon: M1/M2/M3)** → recommended to force amd64 for Chrome:
+test-output/index.html (TestNG)
 
-  ```bash
-  docker build --platform=linux/amd64 -t paylocity-tests .
-  ```
-* **macOS (Intel), Linux, Windows**:
+test-output/emailable-report.html
 
-  ```bash
-  docker build -t paylocity-tests .
-  ```
+target/surefire-reports/… (Surefire logs)
 
-#### Run and export reports
+🐳 Run with Docker (by platform)
+0) Build the image (run in repo root)
 
-* **Windows (PowerShell)**:
+macOS (Apple Silicon: M1/M2/M3) – recommended for Chrome stable
 
-  ```powershell
-  mkdir .\reports -Force
-  docker run --rm -v "${PWD}\reports:/reports" paylocity-tests
-  ```
+docker build --platform=linux/amd64 -t paylocity-tests .
 
-* **macOS (Intel/Apple Silicon)**:
 
-  ```bash
-  mkdir -p ./reports
-  docker run --rm -v "$PWD/reports:/reports" paylocity-tests
-  ```
+macOS (Intel), Linux, Windows
 
-* **Linux**:
+docker build -t paylocity-tests .
 
-  ```bash
-  mkdir -p ./reports
-  docker run --rm -v "$PWD/reports:/reports" paylocity-tests
-  ```
 
-After it finishes, open on your host:
+Alternative for Apple Silicon (native arm64): switch Dockerfile to install Chromium instead of Chrome.
 
-* `reports/test-output/index.html`
-* `reports/test-output/emailable-report.html`
+1) Run and export reports
 
-> Notes
-> • If your `ConfigManager` already loads properties from the classpath, you don’t need to pass `-e` env vars.
-> • To override config at runtime, add `-e NAME=value` to `docker run`.
-> • On Windows, ensure drive **C:** is shared in Docker Desktop (Settings → Resources → File Sharing).
+Windows (PowerShell)
 
----
+mkdir .\reports -Force
+docker run --rm -v "${PWD}\reports:/reports" paylocity-tests
 
-## 💻 Platform-specific Docker tips
 
-* **macOS (Apple Silicon)**
+macOS (Intel/Apple Silicon)
 
-    * Best compatibility: build with `--platform=linux/amd64` (Chrome stable).
-    * Alternative (native arm64): adjust Dockerfile to use **Chromium** instead of Chrome.
+mkdir -p ./reports
+docker run --rm -v "$PWD/reports:/reports" paylocity-tests
 
-* **macOS (Intel)**
 
-    * Use the standard build/run commands; no special flags needed.
+Linux
 
-* **Linux**
+mkdir -p ./reports
+docker run --rm -v "$PWD/reports:/reports" paylocity-tests
 
-    * If running rootless Docker, ensure your user can mount volumes to `./reports`.
-    * Install GPU/Video deps only if you modify the image to run browsers non-headless.
 
-* **Windows**
+Open on host
 
-    * Docker Desktop requires **WSL2** and virtualization enabled in BIOS.
-    * Use PowerShell path style in `-v` (as shown above).
+reports/test-output/index.html
 
----
+reports/test-output/emailable-report.html
 
-## ⚙️ TestNG Parameters (optional)
+Notes
 
-`BaseTest` reads optional parameters from the suite XML:
+If your ConfigManager already loads properties from the classpath, you don’t need -e env vars.
 
-```xml
+To override config at runtime, add -e NAME=value to docker run.
+
+Windows: ensure drive C: is shared in Docker Desktop (Settings → Resources → File Sharing).
+
+💻 Platform-specific Docker tips
+
+macOS (Apple Silicon)
+
+Best compatibility: build with --platform=linux/amd64 (Chrome stable).
+
+Native arm64 alternative: use Chromium in the Dockerfile.
+
+macOS (Intel)
+
+Standard build/run commands; no special flags needed.
+
+Linux
+
+If rootless Docker, ensure your user can mount volumes to ./reports.
+
+Only add GPU/video deps if you change the image to run browsers non-headless.
+
+Windows
+
+Docker Desktop requires WSL2 and virtualization enabled in BIOS.
+
+Use PowerShell path style in -v (as shown above).
+
+⚙️ TestNG Parameters (optional)
+
+BaseTest reads optional parameters from the suite XML:
+
 <!-- Example overrides (uncomment to apply) -->
 <!--
 <parameter name="browser" value="FIREFOX"/>
@@ -174,22 +181,61 @@ After it finishes, open on your host:
 <parameter name="remote" value="true"/>
 <parameter name="gridUrl" value="http://selenium:4444/wd/hub"/>
 -->
-```
 
-* **Defaults**: `CHROME`, `headless=false`, `remote=false`.
-* **Docker**: headless is forced automatically by `DriverManager`.
 
----
+Defaults: CHROME, headless=false, remote=false.
 
-## 🧪 Reports
+Docker: headless is forced automatically by DriverManager.
 
-* **IDE / Maven**: generated under `test-output/` in the project root.
-* **Docker**: exported to your host under `./reports/test-output/`.
+🧪 Reports
 
----
+IDE / Maven: test-output/ in project root.
 
-## ❗Troubleshooting
+Docker: exported to host under ./reports/test-output/.
 
-* **Docker on Windows**: “Virtualization support not detected” → enable VT-x/AMD-V in BIOS, enable **WSL2**, then restart Docker Desktop.
-* **macOS Apple Silicon**: if Chrome install fails during build, rebuild with `--platform=linux/amd64` (recommended), or switch the Dockerfile to Chromium for native arm64.
-* If UI tests are heavy: increase Docker Desktop resources (Settings → Resources → CPU/RAM).
+🔧 Generate/refresh the tree (exact, optional)
+
+Print an up-to-date ASCII map (ignores build/IDE folders):
+
+macOS / Linux
+
+python3 - <<'PY'
+import os, re
+ignore = re.compile(r'(^\.git$|^target$|^\.idea$|^reports$|^test-output$)')
+def tree(root, prefix=""):
+entries = [e for e in sorted(os.listdir(root)) if not ignore.match(e)]
+for i, name in enumerate(entries):
+path = os.path.join(root, name)
+tee = "└─ " if i == len(entries)-1 else "├─ "
+print(prefix + tee + name + ("/" if os.path.isdir(path) else ""))
+if os.path.isdir(path):
+tree(path, prefix + ("   " if i == len(entries)-1 else "│  "))
+print(os.path.basename(os.getcwd()) + "/")
+tree(".")
+PY
+
+
+Windows (PowerShell)
+
+python - <<'PY'
+import os, re
+ignore = re.compile(r'(^\.git$|^target$|^\.idea$|^reports$|^test-output$)')
+def tree(root, prefix=""):
+entries = [e for e in sorted(os.listdir(root)) if not ignore.match(e)]
+for i, name in enumerate(entries):
+path = os.path.join(root, name)
+tee = "└─ " if i == len(entries)-1 else "├─ "
+print(prefix + tee + name + ("/" if os.path.isdir(path) else ""))
+if os.path.isdir(path):
+tree(path, prefix + ("   " if i == len(entries)-1 else "│  "))
+print(os.path.basename(os.getcwd()) + "/")
+tree(".")
+PY
+
+❗Troubleshooting
+
+Docker on Windows: “Virtualization support not detected” → enable VT-x/AMD-V in BIOS, enable WSL2, then restart Docker Desktop.
+
+macOS Apple Silicon: if Chrome install fails during build, rebuild with --platform=linux/amd64 (recommended), or switch the Dockerfile to Chromium for native arm64.
+
+Heavy UI tests: increase Docker Desktop resources (Settings → Resources → CPU/RAM).
